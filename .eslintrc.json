@@ -1,0 +1,12 @@
+{
+  "extends": "es/node",
+  "rules": {
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-implicit-any-catch": [
+      "error",
+      {
+        "allowExplicitAny": true
+      }
+    ]
+  }
+}

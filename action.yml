@@ -1,0 +1,29 @@
+name: 'Download release assets'
+description: 'Download release assets. It supports GitHub Enterprise.'
+author: 'Chris Burkert (https://github.com/cb80)'
+inputs:
+  tag:
+    description: 'Tag name'
+    required: true
+  to:
+    description: 'Target directory'
+    required: false
+    default: '.'
+  owner:
+    description: 'Owner of the release'
+    required: false
+    default: ${{ github.context.repo.owner }}
+  repo:
+    description: 'Repository of the release'
+    required: false
+    default: ${{ github.context.repo.repo }}
+  token:
+    description: 'GitHub token, default: secrets.GITHUB_TOKEN'
+    required: false
+    default: ${{ github.token }}
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'box'
+  color: 'blue'
