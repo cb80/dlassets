@@ -27,7 +27,7 @@ const run = async function (): Promise<void> {
       tag
     });
 
-    core.debug(rel);
+    core.debug(JSON.stringify(rel));
     const errorHandler = function (err: any): void {
       if (err) {
         throw err;
@@ -35,21 +35,23 @@ const run = async function (): Promise<void> {
     };
 
     fs.mkdir(dir, { recursive: true }, errorHandler);
-    for (const { name, url } of rel.assets) {
+    for (const { name, id } of rel.assets) {
       const trg = path.resolve(dir, name);
-      const file = fs.createWriteStream(trg);
 
       core.info(`Downloading ${name} to ${trg}`);
       const resp = await octokit.rest.repos.getReleaseAsset({
-        url,
         headers: {
-          Accept: 'application/octet-stream',
-          UserAgent: 'download-release-assets'
-        }
+          Accept: 'application/octet-stream'
+        },
+        owner,
+        repo,
+        asset_id: id
       });
 
-      core.debug(resp);
-      file.write(Buffer.from(resp.data));
+      core.debug(JSON.stringify(resp));
+      const file = fs.createWriteStream(trg);
+
+      file.write(Buffer.from(resp.data as unknown as string));
       file.end();
     }
   } catch (ex: any) {
