@@ -17,26 +17,21 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v3
 
-    - name: Set up node16
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-
     - name: Run npm
       run: npm install && npm run all
 
-    - name: create tag for test release
+    - name: Create tag for test release
       run: |
         git tag -f ghatest
         git push -f origin ghatest
 
-    - name: create test release without assets
+    - name: Create test release without assets
       uses: cb80/pubrel@latest
       with:
         ref: 'refs/tags/ghatest'
         replace: ghatest
 
-    - name: create test release with assets
+    - name: Create test release with assets
       uses: cb80/pubrel@latest
       with:
         ref: 'refs/tags/ghatest'
@@ -45,24 +40,24 @@ jobs:
           README.md
           .git/index
 
-    - name: download assets
+    - name: Download assets
       uses: ./
       with:
         tag: ghatest
         to: dl
 
-    - name: compare assets
+    - name: Compare assets
       run: |
         ls -al dl/
         cmp README.md dl/README.md
         cmp .git/index dl/index
 
-    - name: remove test release
+    - name: Remove test release
       uses: cb80/delrel@latest
       with:
         tag: ghatest
 
-    - name: remove tag for test release
+    - name: Remove tag for test release
       run: git push origin :ghatest
 
     - name: Update latest tag when pushing to main
