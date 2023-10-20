@@ -1,7 +1,7 @@
 {
   "name": "dlassets",
   "description": "Download all release assets. It supports GitHub Enterprise.",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "author": "Chris Burkert (https://github.com/cb80)",
   "license": "MIT",
   "main": "lib/main.js",
